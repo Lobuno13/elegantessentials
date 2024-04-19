@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+       <title>Elegant Essentials</title>
+        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"/>
+        
+</head>
+    
+<body>
+
+
+  <section id="header">
+<a href="home.html"> <img src="img/Elegant Essentials.png" class=logo alt=""></a>       <!--logo image--> 
+<div>
+    <ul id="navbar">                                                                                                  <!--section of logo and list-->
+        <li><a class="glow" href="home.html">Home</a></li>
+        <li><a  href="shop.html">Shop</a></li>
+       
+     <div class="header-top">
+      <div class="right">
+        <li class="left">About Us<span class="icon-small" ><i class="fas fa-chevron-down"></i></span>
+              <ul>
+              <li ><a  class="current" href="contact.html">Contact</a></li>
+              <li><a href="stories.html">Achievements/Stories</a></li>
+              <li ><a href="help.html">FAQ's / Help</a></li>
+              </ul>
+        </li> 
+      </div>
+    </div>
+
+        <li><a href="donations.html">Donations</a></li>       <!--submenu-->
+        
+        <div class="header-top1">
+          <div class="right1">
+            <li class="left1" >Account<span class="icon-small1" ><i class="far fa-plus"></i></span>
+                  <ul>
+                  <li ><a  href="register.php">Register</a></li>
+                  <li><a href="login.php">LogIn</a></li>
+                  </ul>
+            </li> 
+          </div>
+        </div>
+      
+          <li><a href="basket.html"><i class="far fa-shopping-cart"></i></a></li>
+       
+    </ul>
+</div>
+</section>
+
+
+<h2 class="title">Home Page</h2>
+<h3 class="subtitle"><span>Home</span></h3>
+
+<!--image slider start-->
+<div class="slider">
+  <div class="slides">
+
+ <!--radio buttons start-->
+  <input type="radio" name="radio-btn" id="radio1">
+  <input type="radio" name="radio-btn" id="radio2">
+  <input type="radio" name="radio-btn" id="radio3">
+  <input type="radio" name="radio-btn" id="radio4">
+  <input type="radio" name="radio-btn" id="radio5">
+  <!--radio buttons end-->
+<!--slide image-->
+<div class="slide first">
+  <a href="shop.html">
+<img  src="img/image1.jpg" alt="">
+  </a>
+</div>
+<div class="slide first">
+  <a href="shop.html">
+  <img  src="img/image2.jpg" alt="">
+  </a>
+  </div>
+  <div class="slide first">
+    <a href="shop.html">
+    <img src="img/image3.jpg" alt="">
+    </a>
+    </div>
+    <div class="slide first">
+      <a href="shop.html">
+      <img  src="img/image6.jpg" alt="">
+      </a>
+      </div>
+      <div class="slide first">
+        <a href="shop.html">
+        <img  src="img/c5.jpg" alt="">
+        </a>
+        </div>
+<!--slide image end-->
+<!--automatic navigation start-->
+<div class="navigation-auto">
+  <div class="auto-btn1"></div>
+  <div class="auto-btn2"></div>
+  <div class="auto-btn3"></div>
+  <div class="auto-btn4"></div>
+  <div class="auto-btn5"></div>
+</div>
+<!--automatic navigation end-->
+  </div>
+<!--manual navigation start-->
+<div class="navigation-manual">
+  <label for="radio1" class="manual-btn"></label>
+  <label for="radio2" class="manual-btn"></label>
+  <label for="radio3" class="manual-btn"></label>
+  <label for="radio4" class="manual-btn"></label>
+  <label for="radio5" class="manual-btn"></label>
+</div>
+<!--manual navigation end-->
+</div>
+<!--image slider end-->
+
+   <!--javascript code to see each side and make automatic sideshow-->
+<script type="text/javascript">
+var counter = 1;
+  setInterval(function(){
+    document.getElementById('radio' + counter).checked = true;
+    counter++;                                     
+    if(counter > 5){        
+      counter=1;
+    }
+  }, 5000);
+</script>
+
+
+ <!--frontpage image no.1 and no.2 combine design-->
+<div class="sameline">
+<section id="frontpage1" >
+     <div class="box1"></div>
+     <h1>Style Is Forever</h1> 
+    <p>Second Hand Clothes</p>                   
+     <button><a href="shop.html">Shop now</a></button>
+    
+</section>
+<section id="frontpage2" >
+<div class="bx"></div>
+</section>
+</div>
+
+
+
+
+
+<!--frontpage image no.3 and no.4 design-->
+<div class="sameline2">
+  <section id="frontpage3" >
+       <div class="box2"></div>
+       <h1>Making Millions</h1>  
+       <h2>Happy</h2>
+       <h3>Each Day</h3>                     
+  </section>
+
+  <section id="frontpage4" >
+  <div class="bx1">
+  
+  </div>
+  <h1>Share Hope,Spread Joy</h1> 
+  <p>Make a Difference:Donate Today</p>                   
+      <button> <a href="donations.html" class="dono-link">Donations</a></button>
+  </section>
+  </div>
+
+
+
+<section id="features" class="section-p1">
+  <h1>Feature Products</h1>
+    <p>New summer collection added</p>
+   
+  <div class="container">
+    
+        <!--New Content-->
+        <div class="newcontent ">
+          <div class="newtag">New</div>
+          <img src="img/l1.jpg" alt="" class="newimg">
+          <h3 class="newtitle">Tee Crew Neck Tshirt</h3>
+          <div class="review">
+            <i class="fas fa-star" style="color: gold;"></i>
+            <i class="fas fa-star" style="color: gold;"></i>
+            <i class="fas fa-star" style="color: gold;"></i>
+            <i class="fas fa-star" style="color: gold;"></i>
+            <i class="far fa-star" style="color: gold;"></i>
+           
+       
+        </div>
+          <span class="newsubtitle">Clothing</span>
+ 
+          <div class="newprices">
+            <span class="newprice">£7.99</span>
+            
+          </div>
+          <div class="color-content">
+                 
+            <div class="color-group">                                                
+                   <a href="view.hmtl" class="color-link"><div class="color color-black active-color"></div> </a>
+                   <a href="view.hmtl" class="color-link"><div class="color color-white"></div></a>
+                    <a href="view.hmtl" class="color-link"><div class="color color-grey"></div>  </a>    
+            </div>
+        </div>
+          <a href="basket.html" class="newbutton">
+            <i class="fa fa-shopping-basket basket"></i>
+          </a>
+        </div>
+           <!--New Content-->
+        <div class="newcontent larger">
+          <div class="newtag">New</div>
+          <img src="img/f2.jpg" alt="" class="newimg">
+          <h3 class="newtitle">Levis Jeans</h3>
+          <div class="review">
+            <i class="fas fa-star" style="color: gold;"></i>
+            <i class="fas fa-star" style="color: gold;"></i>
+            <i class="fas fa-star" style="color: gold;"></i>
+            <i class="fas fa-star" style="color: gold;"></i>
+            <i class="far fa-star" style="color: gold;"></i>
+           
+       
+        </div>
+          <span class="newsubtitle">Clothing</span>
+ 
+          <div class="newprices">
+            <span class="newprice">£26.99</span>
+            <span class="newdiscount">£40.99</span>
+          </div>
+          <div class="color-content">
+                     
+            <div class="color-group">                                                
+                   <a href="view.hmtl" class="color-link"><div class="color color-blue"></div> </a>
+                   <a href="view.hmtl" class="color-link"><div class="color color-grey"></div></a>
+                    <a href="view.hmtl" class="color-link"><div class="color color-black active-color"></div>  </a>    
+            </div>
+        </div>
+          <a href="basket.html" class="newbutton">
+            <i class="fa fa-shopping-basket basket"></i>
+          </a>
+        </div>
+        <!--New Content-->
+        <div class="newcontent ">
+          <div class="newtag">New</div>
+          <img src="img/Verdusa Women's Ruffle Hem Tie Shoulder Ruched Layered A Line Short Cami Dress.jpg" alt="" class="newimg">
+          <h3 class="newtitle">Verdusa Women's Short Cami Dress</h3>
+          <div class="review">
+            <i class="fas fa-star" style="color: gold;"></i>
+            <i class="fas fa-star" style="color: gold;"></i>
+            <i class="fas fa-star" style="color: gold;"></i>
+            <i class="fas fa-star" style="color: gold;"></i>
+            <i class="far fa-star" style="color: gold;"></i>
+        </div>
+          <span class="newsubtitle">Clothing</span>
+ 
+          <div class="newprices">
+            <span class="newprice">£12.99</span>
+          </div>
+         
+          <a href="basket.html" class="newbutton">
+            <i class="fa fa-shopping-basket basket"></i>
+          </a>
+        </div>
+        <!--New Content-->
+        <div class="newcontent ">
+          <div class="newtag">New</div>
+          <img src="img/Toddler Girl's Floral Outfit.jpg" alt="" class="newimg">
+          <h3 class="newtitle">Toddler Girl's Floral Outfit</h3>
+          <div class="review">
+            <i class="fas fa-star" style="color: gold;"></i>
+            <i class="fas fa-star" style="color: gold;"></i>
+            <i class="fas fa-star" style="color: gold;"></i>
+            <i class="fas fa-star" style="color: gold;"></i>
+            <i class="far fa-star" style="color: gold;"></i>
+           
+       
+        </div>
+          <span class="newsubtitle">Clothing</span>
+ 
+          <div class="newprices">
+            <span class="newprice">£5.99</span>
+          </div>
+         
+          <a href="basket.html" class="newbutton">
+            <i class="fa fa-shopping-basket basket"></i>
+          </a>
+        </div>
+        <!--New Content-->
+        <div class="newcontent ">
+          <div class="newtag">New</div>
+          <img src="img/Amiblvowa Newborn Infant Baby Boy Shorts Set Camisole Tank Top Jogger Shorts Outfit 2Pcs Summer Casual Clothes.jpg" alt="" class="newimg">
+          <h3 class="newtitle">Newborn Infant Baby Boy Set</h3>
+          <div class="review">
+            <i class="fas fa-star" style="color: gold;"></i>
+            <i class="fas fa-star" style="color: gold;"></i>
+            <i class="fas fa-star" style="color: gold;"></i>
+            <i class="fas fa-star" style="color: gold;"></i>
+            <i class="far fa-star" style="color: gold;"></i>
+           
+       
+        </div>
+          <span class="newsubtitle">Clothing</span>
+ 
+          <div class="newprices">
+            <span class="newprice">£4.99</span>
+          </div>
+          
+          <a href="basket.html" class="newbutton">
+            <i class="fa fa-shopping-basket basket"></i>
+          </a>
+        </div>
+        <!--New Content-->
+        <div class="newcontent ">
+          <div class="newtag">New</div>
+          <img src="img/Quick Drying Comfy Shorts, Men's Casual Waist Drawstring Shorts For Summer Gym Workout Training Beach Resort.jpg" alt="" class="newimg">
+          <h3 class="newtitle">Men's Casual Waist Drawstring Shorts</h3>
+          <div class="review">
+            <i class="fas fa-star" style="color: gold;"></i>
+            <i class="fas fa-star" style="color: gold;"></i>
+            <i class="fas fa-star" style="color: gold;"></i>
+            <i class="fas fa-star" style="color: gold;"></i>
+            <i class="far fa-star" style="color: gold;"></i>
+           
+       
+        </div>
+          <span class="newsubtitle">Clothing</span>
+ 
+          <div class="newprices">
+            <span class="newprice">£8.99</span>
+            <span class="newdiscount">£11.99</span>
+          </div>
+          
+          <a href="basket.html" class="newbutton">
+            <i class="fa fa-shopping-basket basket"></i>
+          </a>
+        </div>
+        
+  </div>
+
+</section>
+
+<section id="banner" class="m1">
+<h2><i>Save up to <span>70% Off</span> - Explore our discounted products</i></h2>
+<a href="explore.html">
+  <button>Explore More</button>
+</a>
+</section>
+
+
+<section id="arrival" class="section-p1">
+  <h2 class="title1">New Arrivals</h2>
+  
+  <div class="container">
+    
+        <!--New Content-->
+        <div class="newcontent ">
+          <div class="newtag">New</div>
+          <img src="img/Men 1pc Flap Pocket Overcoat.jpg" alt="" class="newimg">
+          <h3 class="newtitle">Flap Pocket Overcoat</h3>
+          <div class="review">
+            <i class="fas fa-star" style="color: gold;"></i>
+            <i class="fas fa-star" style="color: gold;"></i>
+            <i class="fas fa-star" style="color: gold;"></i>
+            <i class="fas fa-star" style="color: gold;"></i>
+            <i class="far fa-star" style="color: gold;"></i>
+        </div>
+          <span class="newsubtitle">Clothing</span>
+ 
+          <div class="newprices">
+            <span class="newprice">£24.99</span>
+            <span class="newdiscount">£28.99</span>
+          </div>
+          <a href="basket.html" class="newbutton">
+            <i class="fa fa-shopping-basket basket"></i>
+          </a>
+        </div>
+           <!--New Content-->
+        <div class="newcontent">
+          <div class="newtag">New</div>
+          <img src="img/My Must Haves For Fall - J_ Cathell.jpg" alt="" class="newimg">
+          <h3 class="newtitle">Leather Women Jacket</h3>
+          <div class="review">
+            <i class="fas fa-star" style="color: gold;"></i>
+            <i class="fas fa-star" style="color: gold;"></i>
+            <i class="fas fa-star" style="color: gold;"></i>
+            <i class="fas fa-star" style="color: gold;"></i>
+            <i class="far fa-star" style="color: gold;"></i>
+        </div>
+          <span class="newsubtitle">Clothing</span>
+ 
+          <div class="newprices">
+            <span class="newprice">£21.99</span>
+          </div>
+          <a href="basket.html" class="newbutton">
+            <i class="fa fa-shopping-basket basket"></i>
+          </a>
+        </div>
+        <!--New Content-->
+        <div class="newcontent ">
+          <div class="newtag">New</div>
+          <img src="img/Men's Comfort Stretch Chino Pants, Standard Fit, Cotton Blend.jpg" alt="" class="newimg">
+          <h3 class="newtitle">Beige Men Trousers</h3>
+          <div class="review">
+            <i class="fas fa-star" style="color: gold;"></i>
+            <i class="fas fa-star" style="color: gold;"></i>
+            <i class="fas fa-star" style="color: gold;"></i>
+            <i class="far fa-star" style="color: gold;"></i>
+            <i class="far fa-star" style="color: gold;"></i>
+        </div>
+          <span class="newsubtitle">Clothing</span>
+ 
+          <div class="newprices">
+            <span class="newprice">£11.99</span>
+          </div>
+          <a href="basket.html" class="newbutton">
+            <i class="fa fa-shopping-basket basket"></i>
+          </a>
+        </div>
+        <!--New Content-->
+        <div class="newcontent ">
+          <div class="newtag">New</div>
+          <img src="img/adidas Campus '00s Athletic Shoe - Grey _ Cloud White.jpg" alt="" class="newimg">
+          <h3 class="newtitle">Adidas Grey Shoes </h3>
+          <div class="review">
+            <i class="fas fa-star" style="color: gold;"></i>
+            <i class="fas fa-star" style="color: gold;"></i>
+            <i class="fas fa-star" style="color: gold;"></i>
+            <i class="fas fa-star" style="color: gold;"></i>
+            <i class="fas fa-star" style="color: gold;"></i>
+        </div>
+          <span class="newsubtitle">Shoes</span>
+ 
+          <div class="newprices">
+            <span class="newprice">£35.99</span>
+            <span class="newdiscount">42.99</span>
+          </div>
+          <a href="basket.html" class="newbutton">
+            <i class="fa fa-shopping-basket basket"></i>
+          </a>
+        </div>
+         <!--New Content-->
+         <div class="newcontent ">
+          <div class="newtag">New</div>
+          <img src="img/Ford Crew Jumper.jpg" alt="" class="newimg">
+          <h3 class="newtitle">Crew Jumper </h3>
+          <div class="review">
+            <i class="fas fa-star" style="color: gold;"></i>
+            <i class="fas fa-star" style="color: gold;"></i>
+            <i class="fas fa-star" style="color: gold;"></i>
+            <i class="fas fa-star" style="color: gold;"></i>
+            <i class="far fa-star" style="color: gold;"></i>
+        </div>
+          <span class="newsubtitle">Clothing</span>
+ 
+          <div class="newprices">
+            <span class="newprice">£17.99</span>
+          </div>
+          <a href="basket.html" class="newbutton">
+            <i class="fa fa-shopping-basket basket"></i>
+          </a>
+        </div>
+         <!--New Content-->
+         <div class="newcontent smaller ">
+          <div class="newtag">New</div>
+          <img src="img/Polo Ralph Lauren cable knit jumper.jpg" alt="" class="newimg">
+          <h3 class="newtitle">Polo Ralph Knit Jumper </h3>
+          <div class="review">
+            <i class="fas fa-star" style="color: gold;"></i>
+            <i class="fas fa-star" style="color: gold;"></i>
+            <i class="fas fa-star" style="color: gold;"></i>
+            <i class="fas fa-star" style="color: gold;"></i>
+            <i class="far fa-star" style="color: gold;"></i>
+        </div>
+          <span class="newsubtitle">Clothing</span>
+ 
+          <div class="newprices">
+            <span class="newprice">£24.99</span>
+            <span class="newdiscount">£29.99</span>
+          </div>
+          <a href="basket.html" class="newbutton">
+            <i class="fa fa-shopping-basket basket"></i>
+          </a>
+       
+
+    </div>
+  </div>
+
+</section>
+
+
+
+
+<footer class="section-p2">
+<div class="col">
+<img class="logo" src="img/Elegant Essentials.png" alt="">
+<h4>Contact</h4>
+<p><strong>Address: </strong> 178 Norwood Road, Tulse Hill, SE27 9AX, England, United Kingdom</p>
+<p><strong>Phone: </strong>+44 7465 674536</p>
+<p><strong>Hours: </strong>10:00 ~ 18:00 ; Mon ~ Sat</p>
+<div class="follow">
+  <h4>Follow us</h4>
+  <div class="icon">
+   <a  href="https://www.facebook.com/oxfamGB" ><i class="fab fa-facebook-f"></i></a>
+    <a  href="https://twitter.com/oxfamgb/"><i class="fab fa-twitter"></i></a>
+    <a  href="https://www.instagram.com/oxfamgb/"><i class="fab fa-instagram"></i></a>
+    <a   href="https://m.youtube.com/@OxfamGB/featured"><i class="fab fa-youtube"></i></a>
+  </div>
+</div>
+</div>
+
+<div class="col">
+  <h4>About</h4>
+<a href="about.html">About us</a>
+<a href="about.html">Delivery Information</a>
+<a href="about.html">Privacy Policy</a>
+<a href="about.html">Terms & Conditions</a>
+<a href="contact.html">Contact Us</a>
+</div>
+
+</div>
+
+<div class="col">
+  <h4>My Account</h4>
+<a href="signin.html">Sign In</a>
+<a href="login.html">Log In</a>
+<a href="basket.html">View Cart</a>
+<a href="track.html">Track My Order</a>
+</div>
+
+
+<div class="coldownload">
+  <h4>Secured Payment Gateways</h4>
+  <img src="img/w1.png" alt="">
+</div>
+
+<div class="copyright">
+  <p>© 2024 Elegant Essentials</p>
+</div>
+
+</footer>
+
+
+
+
+
+
+
+    </body>
+    <script src="script.js"></script>
+ 
+</html>

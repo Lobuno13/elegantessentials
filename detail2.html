@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+       <title>Elegant Essentials</title>
+        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"/>
+       
+      
+</head>
+    
+<body>
+
+
+  <section id="header">
+    <a href="home.html"> <img src="img/Elegant Essentials.png" class=logo alt=""></a>       <!--logo image--> 
+    <div>
+        <ul id="navbar">                                                                                                  <!--section of logo and list-->
+            <li><a  href="home.html">Home</a></li>
+            <li><a class="glow" href="shop.html">Shop</a></li>
+           
+         <div class="header-top">
+          <div class="right">
+            <li class="left">About Us<span class="icon-small" ><i class="fas fa-chevron-down"></i></span>
+                  <ul>
+                  <li ><a  class="current" href="contact.html">Contact</a></li>
+                  <li><a href="stories.html">Achievements/Stories</a></li>
+                  <li ><a href="help.html">FAQ's / Help</a></li>
+                  </ul>
+            </li> 
+          </div>
+        </div>
+    
+            <li><a href="donations.html">Donations</a></li>       <!--submenu-->
+            
+            <div class="header-top1">
+              <div class="right1">
+                <li class="left1" >Account<span class="icon-small1" ><i class="far fa-plus"></i></span>
+                      <ul>
+                      <li ><a  href="register.html">Register</a></li>
+                      <li><a href="login.html">LogIn</a></li>
+                      </ul>
+                </li> 
+              </div>
+            </div>
+          
+              <li><a href="basket.html"><i class="far fa-shopping-cart"></i></a></li>
+           
+        </ul>
+    </div>
+    </section>
+
+
+
+<section id="Detail" class="detailsection">
+    <a href="shop.html"><i class="far fa-times "></i></a>
+    <h2 class="title">Detail Page</h2> 
+  <h3 class="subtitle"> <a href="home.html"> Home ></a><a href="shop.html"> Shop ></a> <span>Detail</span></h3>
+  
+  <div class="detailcontainer grid">
+    
+        <div class="productimg">
+            <div class="detailimg-tag">New</div>
+            <img src="img/Veja Esplar Logo Sneaker - White.jpg" alt="" class="detailimg">
+        </div>
+        
+    <div class="productinfo">
+        
+        <p class="detailsubtitle">Men > Casual > Accessory > Shoes</p>
+        <h3 class="detailtitle">Sneaker Esplar</h3>
+
+        <div class="review">
+            <i class="fas fa-star" style="color: gold;"></i>
+            <i class="fas fa-star" style="color: gold;"></i>
+            <i class="fas fa-star" style="color: gold;"></i>
+            <i class="fad fa-star-half-alt" style="color: gold;"></i>
+            <i class="far fa-star" style="color: gold;"></i>
+            <span class="reviewscount">30 + Review</span>
+        </div>
+
+        <div class="detailprices">
+            <span class="detailprice">£22.99</span>
+            <span class="detaildiscount">£33.99</span>
+            <span class="discountprecentage">68% OFF</span>
+        </div>
+        <div class="selectsize">
+          <select>
+            <option>Select Size</option>
+            <option>Uk 7.5</option>
+            <option>Uk 8</option>
+            <option>Uk 9.5</option>
+          </select>
+  </div>   
+  
+  
+<div class="detaildescription">
+
+    <h3 class="descriptiontitle">Product Details</h3>
+
+    <div class="descriptiondetail">
+       <p>VEJA uses Brazilian and Peruvian organic cotton for the canvas and laces, Amazonian rubber for the soles, and various innovative materials conceived in recycled plastic bottles or recycled polyester.</p>
+    </div>
+
+    <button><a href="basket.html">Add To Cart</a></button>
+</div>
+
+    </div>
+  </div>
+
+</section>
+
+
+
+<footer class="section-p2">
+<div class="col">
+<img class="logo" src="img/Elegant Essentials.png" alt="">
+<h4>Contact</h4>
+<p><strong>Address: </strong> 178 Norwood Road, Tulse Hill, SE27 9AX, England, United Kingdom</p>
+<p><strong>Phone: </strong>+44 7465 674536</p>
+<p><strong>Hours: </strong>10:00 ~ 18:00 ; Mon ~ Sat</p>
+<div class="follow">
+  <h4>Follow us</h4>
+  <div class="icon">
+   <a  href="https://www.facebook.com/oxfamGB" ><i class="fab fa-facebook-f"></i></a>
+    <a  href="https://twitter.com/oxfamgb/"><i class="fab fa-twitter"></i></a>
+    <a  href="https://www.instagram.com/oxfamgb/"><i class="fab fa-instagram"></i></a>
+    <a   href="https://m.youtube.com/@OxfamGB/featured"><i class="fab fa-youtube"></i></a>
+  </div>
+</div>
+</div>
+
+<div class="col">
+  <h4>About</h4>
+<a href="about.html">About us</a>
+<a href="about.html">Delivery Information</a>
+<a href="about.html">Privacy Policy</a>
+<a href="about.html">Terms & Conditions</a>
+<a href="contact.html">Contact Us</a>
+</div>
+
+</div>
+
+<div class="col">
+  <h4>My Account</h4>
+<a href="signin.html">Sign In</a>
+<a href="login.html">Log In</a>
+<a href="basket.html">View Cart</a>
+<a href="track.html">Track My Order</a>
+</div>
+
+
+<div class="coldownload">
+  <h4>Secured Payment Gateways</h4>
+  <img src="img/w1.png" alt="">
+</div>
+
+<div class="copyright">
+  <p>© 2024 Elegant Essentials</p>
+</div>
+
+</footer>
+
+<script src="script.js"></script>
+<script>
+  window.addEventListener('DOMContentLoaded', () => {
+      const xIcon = document.querySelector('.fa-times');
+      const detailSection = document.querySelector('.detailsection');
+      const detailDescription = document.querySelector('.detaildescription');
+      const offset = detailDescription.offsetTop;
+
+      function updateXIconPosition() {
+          if (window.pageYOffset > offset) {
+              xIcon.style.position = 'fixed';
+              xIcon.style.top = '50px';
+          } else {
+              xIcon.style.position = 'absolute';
+              xIcon.style.top = '140px';
+          }
+      }
+
+      window.addEventListener('scroll', updateXIconPosition);
+      window.addEventListener('resize', updateXIconPosition);
+  });
+</script>
+
+
+    </body>
+</html>
