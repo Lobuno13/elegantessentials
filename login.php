@@ -93,13 +93,14 @@
         <button >Register</button>
     </form>
 </div>
-  <div   class="form-container log-inn">
+  <div   class="form-container log-inn ">
         <form action="#" method="post" autocomplete="off">
             <h1>Log In</h1>
             <div class="error-txt">Error</div>
-
+           
             <input type="email" name="email" placeholder="Email" required>
-
+           
+            
             <div class="input-box4">
               <input type="password" name="password" placeholder="Password" id="password" required>
             <img id="eyeicon" src="img/eye-slash.svg">  
@@ -132,38 +133,39 @@
 
 
 <script>
- const form = document.querySelector(".log-inn form"),
- button = form.querySelector(".button input"),
- errorTxt = form.querySelector(".error-txt");
- const loadinDot = document.querySelector(".loading-animation");
- 
- form.onsubmit = (e)=>{
- e.preventDefault();
- }
+const form = document.querySelector(".log-inn form"),
+button = form.querySelector(".button input"),
+errorTxt = form.querySelector(".error-txt");
+const loadinDot = document.querySelector(".loading-animation");
 
- button.onclick = ()=>{
- let xhr = new XMLHttpRequest();
- xhr.open("POST", "php/login.php", true);
- xhr.onload = ()=>{
- if(xhr.readyState === XMLHttpRequest.DONE){
+form.onsubmit = (e)=>{
+e.preventDefault();
+}
+
+button.onclick = ()=>{
+let xhr = new XMLHttpRequest();
+xhr.open("POST", "php/login.php", true);
+xhr.onload = ()=>{
+if(xhr.readyState === XMLHttpRequest.DONE){
     if(xhr.status === 200){
         let response = xhr.response;
-        if(response === "success"){
-            loadinDot.style.display = "inline-flex";
-            setInterval(()=>{
-              window.location.href = "profile.php";
-            }, 5000)
+        if(response === "successful"){
+          
+        loadinDot.style.display = "inline-flex";
+        setInterval(()=>{
+            window.location.href = "home.html";
+            }, 3000)
         }else{
             errorTxt.style.display = "block";
             errorTxt.textContent = response;
         }
     }
- }
- }
+}
+}
 
- let formData = new FormData(form);
- xhr.send(formData);
- }
+let formData = new FormData(form);
+xhr.send(formData);
+}
 </script>
 
 <footer class="section-p2">

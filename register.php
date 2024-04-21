@@ -148,7 +148,7 @@ xhr.onload = ()=>{
 if(xhr.readyState === XMLHttpRequest.DONE){
     if(xhr.status === 200){
         let response = xhr.response;
-        if(response === "success"){
+        if(response === "successful"){
           
         loadinDot.style.display = "inline-flex";
         setInterval(()=>{

@@ -43,12 +43,283 @@
               </div>
             </div>
           
-              <li><a href="basket.html"><i class="far fa-shopping-cart"></i></a></li>
+              <li><i class="far fa-shopping-cart" id="cart-icon" data-quantity="0"></i></li>
            
         </ul>
     </div>
     </section>
 
+<div class="cart">
+  <h2 class="cart-title">Your Cart</h2>
+
+  <div class="cart-content"></div>
+  <div class="total">
+    <div class="total-title">Total</div>
+    <div class="total-price">£0</div>
+  </div>
+  <button type="button" class="btn-buy">Pay Now</button>
+
+  <i class="far fa-times " id="close-cart"></i>
+</div>
+
+<script>
+  // Update total when spinner buttons are clicked
+  document.querySelectorAll('.quantity-btn').forEach(button => {
+    button.addEventListener('click', function() {
+      // Update the total
+      updateTotal();
+    });
+  });
+
+  // Update total when input value changes
+  document.querySelectorAll('.cart-quantity').forEach(input => {
+    input.addEventListener('change', function() {
+      // Update the total
+      updateTotal();
+    });
+  });
+
+  // Function to update the total
+  function updateTotal() {
+    var cartContent = document.querySelector('.cart-content');
+    var cartBoxes = cartContent.querySelectorAll('.cart-box');
+    var total = 0;
+    cartBoxes.forEach(cartBox => {
+      var priceElement = cartBox.querySelector('.cart-price');
+      var quantityElement = cartBox.querySelector('.cart-quantity');
+      var price = parseFloat(priceElement.innerText.replace('£', ''));
+      var quantity = parseInt(quantityElement.value);
+      total += price * quantity;
+    });
+    document.querySelector('.total-price').innerText = '£' + total.toFixed(2);
+  }
+</script>
+
+
+
+
+<script>
+  //making add to cart
+//cart working js
+if (document.readyState == "loading") {
+    document.addEventListener("DOMContentLoaded", ready);
+} else{
+    ready();
+}
+
+// making function
+function ready() {
+    //remove item from cart
+    var removeCartButtons = document.getElementsByClassName('cart-remove');
+    for (var i = 0; i< removeCartButtons.length; i++){
+        var button = removeCartButtons[i];
+        button.addEventListener("click", removeCartItem);
+    }
+    // Quantity Change
+    var quantityInputs = document.getElementsByClassName('cart-quantity');
+    for (var i = 0; i< quantityInputs.length; i++){
+        var input = quantityInputs[i];
+        input.addEventListener("change", quantityChanged);
+    }
+    // add to cart
+    var addCart = document.getElementsByClassName("add-cart");
+    for (var i = 0; i< addCart.length; i++){
+        var button = addCart[i];
+        button.addEventListener("click", addCartClicked);
+    }
+    loadCartItems();
+}
+
+//Remove Cart Item
+function removeCartItem(event) {
+    var buttonClicked = event.target;
+    buttonClicked.parentElement.remove();
+    updatetotal();
+    saveCartItems();
+}
+//quantityChanged
+function quantityChanged(event) {
+  var input = event.target;
+  if (isNaN(input.value) || input.value <=0) {
+    input.value = 1;
+  }
+  updatetotal();
+  saveCartItems();
+  updateCartIcon();
+}
+
+
+//Add cart function
+function addCartClicked(event){
+  event.stopPropagation();
+  var button = event.target;
+  var shopProducts = button.parentElement.parentElement;
+  var title = shopProducts.getElementsByClassName("shoptitle")[0].innerText;
+  var price = shopProducts.getElementsByClassName("shopprice")[0].innerText;
+  var productImg = shopProducts.getElementsByClassName("shopimg")[0].src
+
+  addProductToCart(title, price, productImg);
+  updateTotal();
+  saveCartItems();
+  updateCartIcon();
+}
+
+function  addProductToCart(title, price, productImg){
+  var cartShopBox = document.createElement('div');
+  cartShopBox.classList.add('cart-box');
+  var cartItems = document.getElementsByClassName("cart-content")[0];
+  var cartItemsNames = cartItems.getElementsByClassName("cart-product-title");
+  for ( var i =0; i< cartItemsNames.length; i++) {
+    if (cartItemsNames[i].innerText == title) {
+      alert('You have already added this item to cart');
+      return;
+    }
+  }
+  var cartBoxContent = `
+  <img src="${productImg}" alt="" class="cart-img" />
+        <div class="detail-box">
+         <div class="cart-product-title">${title}</div>
+         <div class="cart-price">${price}</div>
+         <input 
+         type="number" 
+         name="" 
+         id="" 
+         value="1" 
+         class="cart-quantity" 
+         />
+         
+        </div>
+
+        <i class="fas fa-trash cart-remove"></i>`;
+        cartShopBox.innerHTML = cartBoxContent;
+        cartItems.append(cartShopBox);
+        cartShopBox
+        .getElementsByClassName("cart-remove")[0]
+        .addEventListener("click", removeCartItem );
+        cartShopBox
+        .getElementsByClassName("cart-quantity")[0]
+        .addEventListener("change", quantityChanged);
+        saveCartItems();
+        updateCartIcon();
+}
+
+
+// Update total
+function updatetotal() {
+  var cartContent = document.getElementsByClassName("cart-content")[0];
+  var cartBoxes = cartContent.getElementsByClassName("cart-box");
+  var total = 0;
+  for (var i=0; i < cartBoxes.length; i++){
+    var cartBox = cartBoxes[i];
+    var priceElement = cartBox.getElementsByClassName('cart-price')[0];
+    var quantityElement = cartBox.getElementsByClassName('cart-quantity')[0];
+    var price = parseFloat(priceElement.innerText.replace('£', ''))
+    var quantity = quantityElement.value;
+    total+= price * quantity;
+  }
+  // if price is decimal
+  total = Math.round(total *100 ) / 100;
+  document.getElementsByClassName('total-price')[0].innerText = '£' + total;
+  // save total to localStorage
+  localStorage.setItem("cartTotal", total);
+}
+
+//keep item in cart when page refresh with local storage
+function saveCartItems () {
+  var cartContent = document.getElementsByClassName('cart-content')[0];
+  var cartBoxes = cartContent.getElementsByClassName('cart-box');
+  var carItems = [];
+
+  for (var i=0; i< cartBoxes.length; i++) {
+   cartBox = cartBoxes[i];
+   var titleElement = cartBox.getElementsByClassName('cart-product-title')[0];
+   var priceElement= cart.getElementsByClassName('cart-price')[0];
+   var quantityElement = cartBox.getElementsByClassName('cart-quantity')[0];
+   var productImg= cartBox.getElementsByClassName('cart-img')[0].src;
+
+   var item = {
+    title: titleElement.innerText,
+    price: priceElement.innerText,
+    quantity: quantityElement.innerText,
+    productImg: productImg,
+    };
+    cartItems.push(item);
+  }
+  localStorage.setItem('cartItems', JSON.stringify(cartItems));
+}
+//Loads in cart
+function loadCartItems () {
+  var cartItems = localStorage.getItem('cartItems');
+  if (cartItems) {
+    cartItems = JSON.parse(cartItems);
+    
+    for (var i=0; i< cartItems.length; i++) {
+      var item = cartItems[i];
+      addProductToCart(item.title, item.price, item.productImg);
+
+      var cartBoxes = document.getElementsByClassName('cart-box');
+      var cartBox = cartBoxes[cartBoxes.length - 1];
+      var quantityElement = cartBox.getElementsByClassName('cart-quantity')[0];
+     quantityElement.value = item.quantity;
+    }
+  }
+  var carTotal = localStorage.getItem('cartTotal');
+  if(cartTotal) {
+    document.getElementsByClassName('total-price')[0].innerText = "£" + cartTotal;
+  }
+  updateCartIcon();
+}
+
+//Quantity in cart icon
+function updateCartIcon () {
+  var cartBoxes = document.getElementsByClassName('cart-box');
+  var quantity = 0;
+
+  for (var i = 0; i< cartBoxes.length; i++) {
+    var cartBox = cartBoxes[i];
+    var quantityElement = cartBox.getElementsByClassName("cart-quantity")[0];
+    quantity += parseInt(quantityElement.value);
+  }
+   var cartIcon = document.querySelector("#cart-icon");
+   cartIcon.setAttribute("data-quantity", quantity)
+}
+
+
+
+</script>
+
+
+<script>
+  document.querySelectorAll('.quantity-btn').forEach(button => {
+    button.addEventListener('click', function() {
+      const input = this.parentNode.querySelector('.cart-quantity');
+      const currentValue = parseInt(input.value);
+      if (this.classList.contains('increment')) {
+        input.value = currentValue + 1;
+      } else if (this.classList.contains('decrement')) {
+        if (currentValue > 1) {
+          input.value = currentValue - 1;
+        }
+      }
+    });
+  });
+</script>
+
+<script>
+  /*Cart open close*/
+let cartIcon = document.querySelector('#cart-icon');
+let cart = document.querySelector('.cart');
+let closeCart= document.querySelector('#close-cart');
+// cart open
+cartIcon.onclick = () => {
+    cart.classList.add('active')
+};
+//cart close
+closeCart.onclick = () => {
+    cart.classList.remove('active')
+};
+
+</script>
 
 <h2 class="title">Shop Page</h2>
 <h3 class="subtitle"><a href="home.html"> Home </a>> <span>Shop</span></h3>
@@ -167,7 +438,7 @@
     <div class="shopitems grid " id="product-list">
       <div class="shopcontent men sports set new" onclick="window.location.href='detail.html'">
         <div class="shoptag">New</div>
-        <img src="img/Lacoste Boys' Sport Color Block Tracksuit - Little Kid, Big Kid - Navy Blue_Marina.jpg" alt="" class="shopimg">
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjOc3qo8ewCMVOtAp18GCS6OSLxG0LXW7Y9jV1FsloUYCJxz5VFt6lbXglvbYoVqbpCpuIxfA37qruVoTGxCseLmoHoQysSFfuzP1SIN4_HFKtDi5qF6fvZAmwhf7ygCGmZSruXBrZxX-x_lAhwB2Yj7OQJgUfdG1AiIBmbpbyl2QCKwtcn5K0C16ySNxM/s320/Lacoste%20Boys'%20Sport%20Color%20Block%20Tracksuit%20-%20Little%20Kid,%20Big%20Kid%20-%20Navy%20Blue_Marina.jpg" alt="" class="shopimg">
         <h3 class="shoptitle">Lacoste Tracksuit</h3>
         <div class="review">
           <i class="fas fa-star" style="color: gold;"></i>
@@ -184,14 +455,14 @@
           <span class="shopdiscounts">£19.99</span>
         </div>
 
-        <a href="basket.html" class="shopbutton">
-          <i class="fa fa-shopping-basket basket"></i>
-        </a>
+        <div class="shopbutton">
+          <i class="fa fa-shopping-basket basket add-cart"></i>
+        </div>
       </div>
-
+     
       <div class="shopcontent smaller women streetwear set sale" onclick="window.location.href='detail1.html'" >
         <div class="shoptag">Sale</div>
-        <img src="img/Girls High Low Hem Crop Top & Cami Dress.jpg" alt="" class="shopimg">
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjhEYGtjq2ZG4mValuUyuTAAxEMVftZv-mSrLvPKXTmHXMv5RTXKRsH7B-TKEQfA9X0dLkn7S5QoFo5X7N714YOtnUllFQgscD6Oy5oFbz6kQmeHR9WSK5-uP8gTs6CnLjANwt49XPQFg5wlcx3KOB0ee8N4Rx85dJmi2oIaaNivDjwFER7efiunRR89qs/s320/Girls%20High%20Low%20Hem%20Crop%20Top%20&%20Cami%20Dress.jpg" alt="" class="shopimg">
         <h3 class="shoptitle">Girls High Low Hem Crop Top & Cami Dress</h3>
         <div class="review">
           <i class="fas fa-star" style="color: gold;"></i>
@@ -208,14 +479,14 @@
           
         </div>
 
-        <a href="basket.html" class="shopbutton">
-          <i class="fa fa-shopping-basket basket"></i>
-        </a>
+        <div class="shopbutton">
+          <i class="fa fa-shopping-basket basket add-cart"></i>
+        </div>
       </div>
 
       <div class="shopcontent smaller1 shoes men casual new" onclick="window.location.href='detail2.html'" >
         <div class="shoptag">New</div>
-        <img src="img/Veja Esplar Logo Sneaker - White.jpg" alt="" class="shopimg">
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgK0fkk_shCuog91YIb0-Qes1exrH7iNtzeNQ0g0PsZegcWMp1KtldKJlZx8cJnKA5MOrXCaiMURUP5hB-kF_c9RCaj2t5hkohaAOkG0dPeAAvlewpbkVRQDh-KDA69LNURlrYPH571g3pOI1TqBd4ve5uwZU7ljSD9gxDlMMZm_NZ7wq7jGWof_N4Z40I/s320/Veja%20Esplar%20Logo%20Sneaker%20-%20White.jpg" alt="" class="shopimg">
         <h3 class="shoptitle">Sneaker Esplar</h3>
         <div class="review">
           <i class="fas fa-star" style="color: gold;"></i>
@@ -231,14 +502,14 @@
           <span class="shopdiscounts">£33.99</span>
         </div>
 
-        <a href="basket.html" class="shopbutton">
-          <i class="fa fa-shopping-basket basket"></i>
-        </a>
+        <div class="shopbutton">
+          <i class="fa fa-shopping-basket basket add-cart"></i>
+        </div>
       </div>
 
       <div class="shopcontent men casual tshirt sale"  onclick="window.location.href='detail3.html'">
         <div class="shoptag">Sale</div>
-        <img src="img/Shop Men's Sweaters_ Crew, V-Neck & Cardigan.jpg" alt="" class="shopimg">
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEic35US5LgE0aPW57heqAoQriMzueALDYMiovqG9HDuZApLM4dQsSKKbtizA-pOnYyHFucS-e2whyiyGOmuEJg5_mvEMOkLivicIzFY7WtX3QBOUx4iHNj0Kmj71xYLJT-lNH2JxnlU5Evk0siAc3eDoJzr59hQUM4MbIn70ex2H6Ay0GFswzpJEfBlJpg/s320/Shop%20Men's%20Sweaters_%20Crew,%20V-Neck%20&%20Cardigan.jpg" alt="" class="shopimg">
         <h3 class="shoptitle">Men Sweater Crew V-Neck</h3>
         <div class="review">
           <i class="fas fa-star" style="color: gold;"></i>
@@ -254,14 +525,14 @@
           
         </div>
 
-        <a href="basket.html" class="shopbutton">
-          <i class="fa fa-shopping-basket basket"></i>
-        </a>
+        <div class="shopbutton">
+          <i class="fa fa-shopping-basket basket add-cart"></i>
+        </div>
       </div>
 
       <div class="shopcontent smaller2 accessories sale" >
         <div class="shoptag">Sale</div>
-        <img src="img/download.jpg" alt="" class="shopimg">
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiFyxCce1_8ByfJcO1CxsmtvAaYSGHtzobdpzN10bzoJuwk56lY6fvm4kJ7kvlOReWzAYddNVyxPoH4C4KwVkVQ12ysE3Bv0_4cME3NiCKliOOXmMEY8b9Rg0g9s64NhNeNSrgAUU3CJXRh71Nm0freRhVmt3tdWyxwvWeJF14O1XK4TjTVj4Q5C0GlhM0/s320/download.jpg" alt="" class="shopimg">
         <h3 class="shoptitle">Earings</h3>
         <div class="review">
           <i class="fas fa-star" style="color: gold;"></i>
@@ -277,14 +548,14 @@
           
         </div>
 
-        <a href="basket.html" class="shopbutton">
-          <i class="fa fa-shopping-basket basket"></i>
-        </a>
+         <div class="shopbutton">
+          <i class="fa fa-shopping-basket basket add-cart"></i>
+        </div>
       </div>
 
       <div class="shopcontent women casual sale" >
         <div class="shoptag">Sale</div>
-        <img src="img/Contrast Letter Tape Side Dress.jpg" alt="" class="shopimg">
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi5JKI7lCy5YfwG1dyihsCgvwC5FBPI8KHSFudQurpIUSXiAoOWTGUGTGNr2xGI5ni_OpfJ5kfgf6u78k16uIE6DpP31BmAmcFP1AfoW0WkwnOw3VWI9HAsEewYMU1MSN1wa7l_ivfqPuRCi5i0aANUAecfk0gDUah6ahs2PjSWI_HXmr63ET5T9YHkfY4/s320/Contrast%20Letter%20Tape%20Side%20Dress.jpg" alt="" class="shopimg">
         <h3 class="shoptitle">Tape Side Dress</h3>
         <div class="review">
           <i class="fas fa-star" style="color: gold;"></i>
@@ -299,15 +570,15 @@
           <span class="shopprice">£6.99</span>
         </div>
 
-        <a href="basket.html" class="shopbutton">
-          <i class="fa fa-shopping-basket basket"></i>
-        </a>
+        <div class="shopbutton">
+          <i class="fa fa-shopping-basket basket add-cart"></i>
+        </div>
       </div>
 
 <!--page2-->
       <div class="shopcontent smaller4 sale accessories">
         <div class="shoptag">Sale</div>
-        <img src="img/A BEAUTIFUL AND UNIQUE STYLE FROM CHICOS.jpg" alt="" class="shopimg">
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi6UAoNX94LcKj_2Hga2S0txJp1NOu2ifQZcaLf5aNaSUuQ91wUrgOu0aAgKBslsM8-QeimGTK2WNExLVC-dzBDH6c-U6-K1w8zdg-mObxdDqguiW6oWL-QUKvyGPRop-8YO7jpnJWidWg7jyvUhl0_87Qs-qquGNLOd67SOEF7AqPkauh7x3lXwsKh01s/s320/A%20BEAUTIFUL%20AND%20UNIQUE%20STYLE%20FROM%20CHICOS.jpg" alt="" class="shopimg">
         <h3 class="shoptitle">Black beanie</h3>
         <div class="review">
           <i class="fas fa-star" style="color: gold;"></i>
@@ -322,14 +593,14 @@
           <span class="shopprice">3.99</span> 
         </div>
 
-        <a href="basket.html" class="shopbutton">
-          <i class="fa fa-shopping-basket basket"></i>
-        </a>
+        <div class="shopbutton">
+          <i class="fa fa-shopping-basket basket add-cart"></i>
+        </div>
       </div>
 
       <div class="shopcontent smaller3 new men casual bottoms">
         <div class="shoptag">New</div>
-        <img src="img/Ezra Black Regular Fit Boys Dress Pants - 20.jpg" alt="" class="shopimg">
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjceIf8HGaD5-I3FcrrxiP70dLFypHr7CjIA_4qETuR2UG9L4OipB1kixB_riR8gWewX0Bb8hUuxAyQFhPxgDU0xyiQtI-Ku7d-Y4QIt981l9zWYsx86RvKyCH5C6llcu6gjH5wxV8R7bO-dz9nLgDawt39ZKMJeMFIvv-1d-S1wKKj2PDsJZtaiVLkHEY/s320/Ezra%20Black%20Regular%20Fit%20Boys%20Dress%20Pants%20-%2020.jpg" alt="" class="shopimg">
         <h3 class="shoptitle">Regular Fit Dress Pants</h3>
         <div class="review">
           <i class="fas fa-star" style="color: gold;"></i>
@@ -345,14 +616,14 @@
           
         </div>
 
-        <a href="basket.html" class="shopbutton">
-          <i class="fa fa-shopping-basket basket"></i>
-        </a>
+        <div class="shopbutton">
+          <i class="fa fa-shopping-basket basket add-cart"></i>
+        </div>
       </div>
 
       <div class="shopcontent smaller5 new kids-baby set">
         <div class="shoptag">New</div>
-        <img src="img/The Cutest Baby Boy Clothes on the Internet Right Now—According to Me.jpg" alt="" class="shopimg">
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEijhxa2eQyjuHA7k0kYBmNI7_T6k7oNebwLjL0Bp0wDGpvPTQSJ7MIZ6tBjMd9taL5UuC7baY4Nedw3N5JsfEo1b4IgPHV32q42BZN4Ii77yXMB8uTSIdC2jpI9qGT93EPHeKoEhIV6Hvmi-c6QoEsI2VpP96Ern3CaXFeh43D3RL-qoHyQn9gnfvXfbXY/s320/The%20Cutest%20Baby%20Boy%20Clothes%20on%20the%20Internet%20Right%20Now%E2%80%94According%20to%20Me.jpg" alt="" class="shopimg">
         <h3 class="shoptitle">Baby Set</h3>
         <div class="review">
           <i class="fas fa-star" style="color: gold;"></i>
@@ -368,14 +639,14 @@
           
         </div>
 
-        <a href="basket.html" class="shopbutton">
-          <i class="fa fa-shopping-basket basket"></i>
-        </a>
+        <div class="shopbutton">
+          <i class="fa fa-shopping-basket basket add-cart"></i>
+        </div>
       </div>
 
       <div class="shopcontent sale men streetwear bottoms">
         <div class="shoptag">Sale</div>
-        <img src="img/Men Casual Sports Pants Running Workout Jogging Long Pants Gym Sport Trousers for Men Jogger Sweatpants - Navy blue _ 4XL.jpg" alt="" class="shopimg">
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhJ635dakRmgMGWPke_0540hckU_q1p2VmHVScysv_9S44yrqUmQH2mVPaSlStbrmdLMSadBEGSX32QwmKo9HTZb7qgeC6ZWIogAfCWQJrjuyggnoFYqzUZUk2aA8MGA0mb2MRZ5YE6P0WRsPJmD1NDPzjSljbvQKm6zY_FOyMhHKIGUIdMqXTsADs0t20/s320/Men%20Casual%20Sports%20Pants%20Running%20Workout%20Jogging%20Long%20Pants%20Gym%20Sport%20Trousers%20for%20Men%20Jogger%20Sweatpants%20-%20Navy%20blue%20_%204XL.jpg" alt="" class="shopimg">
         <h3 class="shoptitle">Sport Jogger Pants</h3>
         <div class="review">
           <i class="fas fa-star" style="color: gold;"></i>
@@ -391,14 +662,14 @@
           
         </div>
 
-        <a href="basket.html" class="shopbutton">
-          <i class="fa fa-shopping-basket basket"></i>
-        </a>
+        <div class="shopbutton">
+          <i class="fa fa-shopping-basket basket add-cart"></i>
+        </div>
       </div>
 
       <div class="shopcontent sale accessories">
         <div class="shoptag">Sale</div>
-        <img src="img/17 Handbags No One Will Believe You Found on the High Street.jpg" alt="" class="shopimg">
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhe9N_bKRlIJuU2u01NeA9-x8FyLBVfkUMB1s4pic1z96HNaYn7VgKSngjLItiyMtwPD6E4e-fZwRTYbBJPeeik0D80NiJNy8PIKigZgWUs9v-rXL2mzT57dya-NdDUvINrY9Y4h7jjNgFmS0C2DQ-ZIAXqGDpWvUlM7iXgIGF4z4YbEG98Yc3xG0SCBKk/s320/17%20Handbags%20No%20One%20Will%20Believe%20You%20Found%20on%20the%20High%20Street.jpg" alt="" class="shopimg">
         <h3 class="shoptitle">Handbag</h3>
         <div class="review">
           <i class="fas fa-star" style="color: gold;"></i>
@@ -414,14 +685,14 @@
           <span class="shopdiscounts">£18.99</span>
         </div>
 
-        <a href="basket.html" class="shopbutton">
-          <i class="fa fa-shopping-basket basket"></i>
-        </a>
+        <div class="shopbutton">
+          <i class="fa fa-shopping-basket basket add-cart"></i>
+        </div>
       </div>
 
       <div class="shopcontent smaller sale men sports streetwear tshirt">
         <div class="shoptag">Sale</div>
-        <img src="img/Men's Baseball Jersey Mockup - Front View - Free Download Images High Quality PNG, JPG - 23821.jpg" alt="" class="shopimg">
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiXhrVIZ8FKt9F8BtTBzcq_LBoUJXLKoFtr4OPhuyLjS1B0eR-tV_HQnw53m3e1-SEmJinirGMxspwBRmc4047ZYbbP8nde4TkuHHbaN_au2zWhW25OvYtpPNLcBD-yT-FuT_8iz5EE6lIDTfVOtoXdPLJNXZOp7MS4fQARw816-w4_bHGRTXXQ8mrK4vQ/s320/Men's%20Baseball%20Jersey%20Mockup%20-%20Front%20View%20-%20Free%20Download%20Images%20High%20Quality%20PNG,%20JPG%20-%2023821.jpg" alt="" class="shopimg">
         <h3 class="shoptitle">Baseball Jersey Mockup</h3>
         <div class="review">
           <i class="fas fa-star" style="color: gold;"></i>
@@ -437,9 +708,9 @@
           <span class="shopdiscounts">£25.99</span>
         </div>
 
-        <a href="basket.html" class="shopbutton">
-          <i class="fa fa-shopping-basket basket"></i>
-        </a>
+        <div class="shopbutton">
+          <i class="fa fa-shopping-basket basket add-cart"></i>
+        </div>
       </div>
 
 
@@ -447,7 +718,7 @@
 
       <div class="shopcontent new shoes men women sports streetwear">
         <div class="shoptag">New</div>
-        <img src="img/Brand Men Sneakers 2023 Light Athletic Running Shoes Fashion Women Shoes Chunky Men Casual Flats Trail Walking Shoe Plus Size black-44.jpg" alt="" class="shopimg">
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjzDxXZfqLeJhn43ZJ49eGslMOK79nLhe6nLEBS4hwNbGEvcuELFzdRBCG23ZVEdU7DxADcj3HNhR4ArtstdBQgLshnB2Sf4jj17OjmrnQFFsgE-M0M9NeTrUVkOujZBtOV7YxqTTmadhGiAiMfSdmhCCsIMcVCV0LscCKPbiVm8FuNYYrwq8d5uXfMnSM/s320/Brand%20Men%20Sneakers%202023%20Light%20Athletic%20Running%20Shoes%20Fashion%20Women%20Shoes%20Chunky%20Men%20Casual%20Flats%20Trail%20Walking%20Shoe%20Plus%20Size%20black-44.jpg" alt="" class="shopimg">
         <h3 class="shoptitle">Sneakers Athletic Running Shoes</h3>
         <div class="review">
           <i class="fas fa-star" style="color: gold;"></i>
@@ -463,14 +734,14 @@
           <span class="shopdiscounts">£36.99</span>
         </div>
 
-        <a href="basket.html" class="shopbutton">
-          <i class="fa fa-shopping-basket basket"></i>
-        </a>
+        <div class="shopbutton">
+          <i class="fa fa-shopping-basket basket add-cart"></i>
+        </div>
       </div>
 
       <div class="shopcontent smaller sale accessories ">
         <div class="shoptag">Sale</div>
-        <img src="img/BOJOD Rectangle Sunglasses for Women Retro Fashion Sunglasses UV 400 Protection Square Frame Eyewear.jpg" alt="" class="shopimg">
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjPnPg-AjTq_JVlhLbZEuWM_sArixSH-e0GBn0AxYf29jDlEQNgRxvKBEjPJ6yVDBGMHsTu0ounVN24h5m_PBl0SYSMT4Qe4x1W2ZU4rDRacXBkBzn_rhJ88UFacqzR-i8le6wWdy1H07AzaIDl6w0KtUyAQDrKPzcLfHnzpaBpu4cjka-0LJR6jILAVqY/s320/BOJOD%20Rectangle%20Sunglasses%20for%20Women%20Retro%20Fashion%20Sunglasses%20UV%20400%20Protection%20Square%20Frame%20Eyewear.jpg" alt="" class="shopimg">
         <h3 class="shoptitle">Sunglasses</h3>
         <div class="review">
           <i class="fas fa-star" style="color: gold;"></i>
@@ -486,14 +757,14 @@
           
         </div>
 
-        <a href="basket.html" class="shopbutton">
-          <i class="fa fa-shopping-basket basket"></i>
-        </a>
+        <div class="shopbutton">
+          <i class="fa fa-shopping-basket basket add-cart"></i>
+        </div>
       </div>
 
       <div class="shopcontent smaller1 sale men casual tshirt">
         <div class="shoptag">Sale</div>
-        <img src="img/FLYDAY Hi Relax Shirt.jpg" alt="" class="shopimg">
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhxEoaRuz9obTpBhgOBI_PZzV3yx0KH2BSW5EEjVwoFkH8KNUi2iMqx7rniY6DTIjLmEAgroMqOMkybinfYF_GnfajykqqZY0xPwcCczHDBgMn-920-6FmH5cFPsOpFo4d5JHeKp3AlWGEDAvkATqGqt7LJ1hm0Qfn5HG0vFvy_xAE12XNZH7OVifAAuwE/s320/FLYDAY%20Hi%20Relax%20Shirt.jpg" alt="" class="shopimg">
         <h3 class="shoptitle">Relax T-shirt</h3>
         <div class="review">
           <i class="fas fa-star" style="color: gold;"></i>
@@ -509,14 +780,14 @@
           
         </div>
 
-        <a href="basket.html" class="shopbutton">
-          <i class="fa fa-shopping-basket basket"></i>
-        </a>
+        <div class="shopbutton">
+          <i class="fa fa-shopping-basket basket add-cart"></i>
+        </div>
       </div>
 
       <div class="shopcontent new women streetwear hoodie">
         <div class="shoptag">New</div>
-        <img src="img/FreshLook 2018 Women Fashion Varsity Striped Drawstring Crop Hoodie Sweatshirt Jumper Crop Pullover Top Hoodies, Women's, Size_XL, Yellow.jpg" alt="" class="shopimg">
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjBJNpMeK6iOVZgccg2JFQed_ZVgbnoJM5XZU5iLeS1hd2B3lWpjQJBx_8H3_bBWu8iawmDGoA88rSis1YItPGYXZBLa5YB1UxqoyNpaTEcwDHCzsiOb4gqVAUWkQ5eDjbfqfRG9i6rmFNb0mFHKpVnCE5OVz7hexYtTFOazXsRkXzmqd22nF9MLbn-qM0/s320/FreshLook%202018%20Women%20Fashion%20Varsity%20Striped%20Drawstring%20Crop%20Hoodie%20Sweatshirt%20Jumper%20Crop%20Pullover%20Top%20Hoodies,%20Women's,%20Size_XL,%20Yellow.jpg" alt="" class="shopimg">
         <h3 class="shoptitle">Women Varsity Crop Hoodie</h3>
         <div class="review">
           <i class="fas fa-star" style="color: gold;"></i>
@@ -532,14 +803,14 @@
           
         </div>
 
-        <a href="basket.html" class="shopbutton">
-          <i class="fa fa-shopping-basket basket"></i>
-        </a>
+        <div class="shopbutton">
+          <i class="fa fa-shopping-basket basket add-cart"></i>
+        </div>
       </div>
 
       <div class="shopcontent smaller2 sale kids-baby">
         <div class="shoptag">Sale</div>
-        <img src="img/Next Body & Hose Baby Latzhose und Body mit Bärenmotiv aus Cord (2-tlg).jpg" alt="" class="shopimg">
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiJsh086wKYZNfXIfu1ExyVLoWBrL1GnShsnLw3fY-Uhs3hBcGxPne3IAjufRhLW5eQni2EkLHovNc8wb51MIXzg-W2dn1WLR7DnVL0DWFRfOQJ5nQH6U75colRorYgfD8wLZbwr8E15qX87-yHIBCGBuYKxa1IsQIr0LPXpAQc8MaArXZZzHqB2YrooAc/s320/Next%20Body%20&%20Hose%20Baby%20Latzhose%20und%20Body%20mit%20B%C3%A4renmotiv%20aus%20Cord%20(2-tlg).jpg" alt="" class="shopimg">
         <h3 class="shoptitle">Body Kit</h3>
         <div class="review">
           <i class="fas fa-star" style="color: gold;"></i>
@@ -554,15 +825,14 @@
           <span class="shopprice">£5.99</span>
           
         </div>
-
-        <a href="basket.html" class="shopbutton">
-          <i class="fa fa-shopping-basket basket"></i>
-        </a>
+        <div class="shopbutton">
+          <i class="fa fa-shopping-basket basket add-cart"></i>
+        </div>
       </div>
 
       <div class="shopcontent new women casual set">
         <div class="shoptag">New</div>
-        <img src="img/Warm Pants Women Women's Knitted Set Autumn and Winter Knitting Suit High Collar Sweater Long Pants Women Suit Jacket.jpg" alt="" class="shopimg">
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhD4oGzsowS2M6J2mGExSkbuw3dvfBbpEO1gupuxpW_IrJpSgRCC8XKX42FeLldtkELUbQ7h6X9uOHkaK802j7KbGObzP8Pisbc5Mr_ZV_XvPPtADx9AKkS2tucaaijx0ITmM7i_942GzG1bS-IWaSWlEWLJY8t_y9VJT1V-z1BLl5okEf_DcBrSnvbKqk/s320/Warm%20Pants%20Women%20Women's%20Knitted%20Set%20Autumn%20and%20Winter%20Knitting%20Suit%20High%20Collar%20Sweater%20Long%20Pants%20Women%20Suit%20Jacket.jpg" alt="" class="shopimg">
         <h3 class="shoptitle">Women High Collar Sweater And Long Pant</h3>
         <div class="review">
           <i class="fas fa-star" style="color: gold;"></i>
@@ -577,16 +847,16 @@
           <span class="shopprice">£6.99</span>
         </div>
 
-        <a href="basket.html" class="shopbutton">
-          <i class="fa fa-shopping-basket basket"></i>
-        </a>
+        <div class="shopbutton">
+          <i class="fa fa-shopping-basket basket add-cart"></i>
+        </div>
       </div>
 
 <!--page4-->
 
 <div class="shopcontent sale men sports tshirt">
         <div class="shoptag">Sale</div>
-        <img src="img/nochalofo Black Summer Short Sleeve Compression Gym Running Corset T Shirts Mens Leisure Sports Shirt Fashion Lapel 3D Gradient Sleeved Round Neck Men, Men's, Size_Medium.jpg" alt="" class="shopimg">
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh5xZUNk3NtaswcuGziSLSReG5rAC5teybBYr9k1BWxqnu8WdIrWfTjdECW_WcqNdCWU3ij_dNWladWjQOJ7TRu2p4WWuojR0q1YSfIXSE90BKASdEsftCN6iyOSY3nR9ovOtGN9K9SNo-zdJnq3F4SPicQREs5r1-MoQ1GkJ6anXzKbmcdJZR69G8pwp0/s320/nochalofo%20Black%20Summer%20Short%20Sleeve%20Compression%20Gym%20Running%20Corset%20T%20Shirts%20Mens%20Leisure%20Sports%20Shirt%20Fashion%20Lapel%203D%20Gradient%20Sleeved%20Round%20Neck%20Men,%20Men's,%20Size_Medium.jpg" alt="" class="shopimg">
         <h3 class="shoptitle">Gym T-Shirt</h3>
         <div class="review">
           <i class="fas fa-star" style="color: gold;"></i>
@@ -602,14 +872,14 @@
           
         </div>
 
-        <a href="basket.html" class="shopbutton">
-          <i class="fa fa-shopping-basket basket"></i>
-        </a>
+        <div class="shopbutton">
+          <i class="fa fa-shopping-basket basket add-cart"></i>
+        </div>
       </div>
 
       <div class="shopcontent smaller new men shoes casual">
         <div class="shoptag">New</div>
-        <img src="img/Penny Loafers - Black - ARKET.jpg" alt="" class="shopimg">
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjk5W7sBp6vAM4_L1IyVoQn1zopHWzmVxcGRDU4NvWCHDvDe6c_vKk2W86faHQnP-5-TTq9_AT9J3xn4MCeENhNz0_y2nYqYA6ajXLKb5lJYlb4u5NWBpNTqEcujE6jXumJJwKtvE_b-Z8FFYKxAB2HkZRD6cR04H91SQuwP7LYpqDFJRCw54dUvwEQKps/s320/Penny%20Loafers%20-%20Black%20-%20ARKET.jpg" alt="" class="shopimg">
         <h3 class="shoptitle">Loafer Shoes</h3>
         <div class="review">
           <i class="fas fa-star" style="color: gold;"></i>
@@ -625,14 +895,14 @@
           
         </div>
 
-        <a href="basket.html" class="shopbutton">
-          <i class="fa fa-shopping-basket basket"></i>
-        </a>
+        <div class="shopbutton">
+          <i class="fa fa-shopping-basket basket add-cart"></i>
+        </div>
       </div>
 
       <div class="shopcontent new women streetwear hoodie">
         <div class="shoptag">New</div>
-        <img src="img/Yoga Hoodie Dirty Pink - White _ M.jpg" alt="" class="shopimg">
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEikRF0vDJAXHJDCe7S4dBEBclGlrP8Bi4Yi0QPaAiYxxlX5ZR5BZiV9qhzARhg9FoHj3EDxyLNzUfdl_ZFPHif8UBQHRgPwPWmYhTPP3AG__WkxHA7-3rIR3MnNEO9WwsIbBA5xyhdoKOE0yT7y59XwzmGrftpQAFIaTI6g-NDRpdgp9JMXvqC3P9UDVE8/s320/Yoga%20Hoodie%20Dirty%20Pink%20-%20White%20_%20M.jpg" alt="" class="shopimg">
         <h3 class="shoptitle">Grey Hoodie</h3>
         <div class="review">
           <i class="fas fa-star" style="color: gold;"></i>
@@ -648,14 +918,14 @@
           
         </div>
 
-        <a href="basket.html" class="shopbutton">
-          <i class="fa fa-shopping-basket basket"></i>
-        </a>
+        <div class="shopbutton">
+          <i class="fa fa-shopping-basket basket add-cart"></i>
+        </div>
       </div>
 
       <div class="shopcontent smaller1 sale women casual jumpers">
         <div class="shoptag">Sale</div>
-        <img src="img/ZAFUL Women's Argyle Sweater V-Neck Cropped Sweater Long-Sleeve Plaid Sweater Pullover Jumper Knit Top.jpg" alt="" class="shopimg">
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh0cHLXIqgRgdtqV4vVUBYmnOLCEiLenOOo2FS_Ua2sdal7dYpQzApYH5gSNoIqJHOcb1nt4N4GlZUn2mk_MfGHIWB7Gd1V0n-GT8o2U-g9ZMFhX6OvUldj_YShXj1yUKfaUSbg4khcXNmRe16ZOVzceaEDGH57AXkzJmUdVhCwrz9QRBVVz3B7zFMbyh4/s320/ZAFUL%20Women's%20Argyle%20Sweater%20V-Neck%20Cropped%20Sweater%20Long-Sleeve%20Plaid%20Sweater%20Pullover%20Jumper%20Knit%20Top.jpg" alt="" class="shopimg">
         <h3 class="shoptitle">Women Sweater V-Neck</h3>
         <div class="review">
           <i class="fas fa-star" style="color: gold;"></i>
@@ -671,14 +941,14 @@
           
         </div>
 
-        <a href="basket.html" class="shopbutton">
-          <i class="fa fa-shopping-basket basket"></i>
-        </a>
+        <div class="shopbutton">
+          <i class="fa fa-shopping-basket basket add-cart"></i>
+        </div>
       </div>
 
       <div class="shopcontent smaller2 sale women casual streetwear jackets">
         <div class="shoptag">Sale</div>
-        <img src="img/New Jackets for Women 2023 Autumn_Winter Solid Standing Neck Buckle Office Lady Coat Women Women Clothing Casual Tops Outerwear Caramel color-S.jpg" alt="" class="shopimg">
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhApcEdI1mzVpngSwqp94eHkfUw45pvcHY6Qowit5UO8yBzypQk38_62X5fdFXpwyA50sjmhL4F9fIBedWQk0K2kdAMbyHONIwuomIEtuIQxrCJiB4xKTcs_861XUCv6tv5aZnqEAVWo17UzzvMNKNFwUi7BbqQVDBScbfacySEJnERqk_tqz2IykIcfhc/s320/New%20Jackets%20for%20Women%202023%20Autumn_Winter%20Solid%20Standing%20Neck%20Buckle%20Office%20Lady%20Coat%20Women%20Women%20Clothing%20Casual%20Tops%20Outerwear%20Caramel%20color-S.jpg" alt="" class="shopimg">
         <h3 class="shoptitle">Women Jacket</h3>
         <div class="review">
           <i class="fas fa-star" style="color: gold;"></i>
@@ -694,14 +964,14 @@
           
         </div>
 
-        <a href="basket.html" class="shopbutton">
-          <i class="fa fa-shopping-basket basket"></i>
-        </a>
+        <div class="shopbutton">
+          <i class="fa fa-shopping-basket basket add-cart"></i>
+        </div>
       </div>
 
       <div class="shopcontent sale men streetwear hoodie">
         <div class="shoptag">Sale</div>
-        <img src="img/Aelfric Eden Mens Graphic Oversized Hoodie Cartoon Character Print Streetwear Casual hoodies y2k Hooded Sweatshirt.jpg" alt="" class="shopimg">
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhEFBpTrqDFBjbZi-No31BwkNC8cLmGP8_5M1ExD7N8rmwVgN-8xjyKOEmXYj4JJrwJlWHtQkYTSX9aaooXoewqnOmP4ULZdmNpgTPhyphenhyphenweigIucHSOWbaYaX9tseknP0ol7XsK916xYO6-KRIbwbaYSNXb96f8PKyO4pcri1wIIyrFaBxNy3CHFlMUaErA/s320/Aelfric%20Eden%20Mens%20Graphic%20Oversized%20Hoodie%20Cartoon%20Character%20Print%20Streetwear%20Casual%20hoodies%20y2k%20Hooded%20Sweatshirt.jpg" alt="" class="shopimg">
         <h3 class="shoptitle">Mens Graphic Oversized Hoodie Cartoon</h3>
         <div class="review">
           <i class="fas fa-star" style="color: gold;"></i>
@@ -716,16 +986,16 @@
           <span class="shopprice">£13.99</span>
         </div>
 
-        <a href="basket.html" class="shopbutton">
-          <i class="fa fa-shopping-basket basket"></i>
-        </a>
+        <div class="shopbutton">
+          <i class="fa fa-shopping-basket basket add-cart"></i>
+        </div>
       </div>
 
 <!--page5-->
 
 <div class="shopcontent sale women casual bottoms">
   <div class="shoptag">Sale</div>
-  <img src="img/pink.jpg" alt="" class="shopimg">
+  <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjveR5KU9HEqFHar7f5SDHOJPaWpIpCnc-t9Pq0_r9VtB_BT-TctulVTzpxuI3B4gOxvE6kAY9uCF-F1wN8iXLJw4uA6rHb84AlB5sxZcKGTz2g3ncaqv_tBikiCEBZojYUsF3rRyEeurgJDsMCDEIhoTAS7u50FiMvTWcqgPfNDp0OrdNfDvBZzerrW2o/s320/pink.jpg" alt="" class="shopimg">
   <h3 class="shoptitle">Pink Tousers</h3>
   <div class="review">
     <i class="fas fa-star" style="color: gold;"></i>
@@ -741,14 +1011,14 @@
     
   </div>
 
-  <a href="basket.html" class="shopbutton">
-    <i class="fa fa-shopping-basket basket"></i>
-  </a>
+  <div class="shopbutton">
+    <i class="fa fa-shopping-basket basket add-cart"></i>
+  </div>
 </div>
 
 <div class="shopcontent smaller sale accessories">
   <div class="shoptag">Sale</div>
-  <img src="img/10 Pieces of Jewelry You Should Own By Age 30.jpg" alt="" class="shopimg">
+  <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiBTY0DJ2i4YA5pyewKaJvJNlHN6wVL-hT2JEzjLd8UMOklDIAZNiO_BtRabdEouhxHNznHBRQXFM8uZIfI3lzUR2WMulkSJ7Me1fIQuZf4T7GMnN0Fzyp23AMnJKSuG63K8a-YEOSWRfw6oIHi6gLVsImjXjvLxQL7oZlMlqXo8Xu3aDN04gtFh_aFlIM/s320/10%20Pieces%20of%20Jewelry%20You%20Should%20Own%20By%20Age%2030.jpg" alt="" class="shopimg">
   <h3 class="shoptitle">Neckess</h3>
   <div class="review">
     <i class="fas fa-star" style="color: gold;"></i>
@@ -764,14 +1034,14 @@
     
   </div>
 
-  <a href="basket.html" class="shopbutton">
-    <i class="fa fa-shopping-basket basket"></i>
-  </a>
+  <div class="shopbutton">
+    <i class="fa fa-shopping-basket basket add-cart"></i>
+  </div>
 </div>
 
 <div class="shopcontent smaller1 new women streetwear">
   <div class="shoptag">New</div>
-  <img src="img/Drawstring Knot Ruched Front Ditsy Floral Dress.jpg" alt="" class="shopimg">
+  <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhLlqZb7A-VxcIDRr24xVnbAxqa07sn7eo9jnLTwThvnh41LhWqSVhPrz50blnFZsivKHw6Vz695LKoqaM5nNe_lapCJaz64lvteybnxz69veAfxAcS4XBXFt5c4-mFZgOhBFTouW1wCSgpkrbQg1tnEXRTj4D4kD8T7Bmg8DkAZHb-KSM5idQkgQrRELA/s320/Drawstring%20Knot%20Ruched%20Front%20Ditsy%20Floral%20Dress.jpg" alt="" class="shopimg">
   <h3 class="shoptitle">Floral Dress</h3>
   <div class="review">
     <i class="fas fa-star" style="color: gold;"></i>
@@ -787,14 +1057,14 @@
     
   </div>
 
-  <a href="basket.html" class="shopbutton">
-    <i class="fa fa-shopping-basket basket"></i>
-  </a>
+  <div class="shopbutton">
+    <i class="fa fa-shopping-basket basket add-cart"></i>
+  </div>
 </div>
 
 <div class="shopcontent new women streetwear bottoms">
   <div class="shoptag">New</div>
-  <img src="img/Phi Clothing Girls Blue Cotton Chambray Wide Leg Trousers.jpg" alt="" class="shopimg">
+  <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgRsJxbnQM0FFDW_fAkJMXxR8Efl_tMijLyFebF9q11oolSbZM8R-rht0Mle8tJJkzjh7HBf0jFjyNaqb6w2x85Z73WLxlzkUBpw1PNmEDjC2yC3FfgBt7DpB_EbhI4jTaW24jnwmbpmv2xXaAbvrCrdp2kcINi_srKyDOkstQjWprzW6KfD1z6fq5PLoA/s320/Phi%20Clothing%20Girls%20Blue%20Cotton%20Chambray%20Wide%20Leg%20Trousers.jpg" alt="" class="shopimg">
   <h3 class="shoptitle">Girls Blue Wide Leg Trousers</h3>
   <div class="review">
     <i class="fas fa-star" style="color: gold;"></i>
@@ -810,14 +1080,14 @@
     
   </div>
 
-  <a href="basket.html" class="shopbutton">
-    <i class="fa fa-shopping-basket basket"></i>
-  </a>
+  <div class="shopbutton">
+    <i class="fa fa-shopping-basket basket add-cart"></i>
+  </div>
 </div>
 
 <div class="shopcontent sale kids-baby">
   <div class="shoptag">Sale</div>
-  <img src="img/New Summer Baby''S One-Piece Clothes Harbin Clothes Newborn Baby Cotton Short Sleeve Thin Crotch Crawling Clothes Wholesale - B 9 _ 80cm.jpg" alt="" class="shopimg">
+  <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjQdf4KMYBzRITP7NvFksew7tpJmhm1aoR86huay3RMo00JYX6mQpudcZ1qYMgf9hVdhCTENIKtUY0zgv-9WpzL6Mr47H7o_lV8VsutiYPdZmkdnLV9jP1qDzFhuwD0LAwNlbYCwVo8XwKORhwQzgKsoRiXrKP8CKJlL_M2q5FSJ2oHYcgUFefUD9liv04/s320/New%20Summer%20Baby''S%20One-Piece%20Clothes%20Harbin%20Clothes%20Newborn%20Baby%20Cotton%20Short%20Sleeve%20Thin%20Crotch%20Crawling%20Clothes%20Wholesale%20-%20B%209%20_%2080cm.jpg" alt="" class="shopimg">
   <h3 class="shoptitle">One-Piece Newborn Baby Girl Short Sleeve Clothes</h3>
   <div class="review">
     <i class="fas fa-star" style="color: gold;"></i>
@@ -833,14 +1103,14 @@
     
   </div>
 
-  <a href="basket.html" class="shopbutton">
-    <i class="fa fa-shopping-basket basket"></i>
-  </a>
+  <div class="shopbutton">
+    <i class="fa fa-shopping-basket basket add-cart"></i>
+  </div>
 </div>
 
 <div class="shopcontent smaller2 sale kids-baby">
   <div class="shoptag">Sale</div>
-  <img src="img/Newborn Baby Striped & Cartoon Graphic Jumpsuit.jpg" alt="" class="shopimg">
+  <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh6hyiCkR-tO3EJhW7XqIn38c32IdVmMjYLAolFIMq0jIn8MZxyebyuEcWkqkWyY4E2P9qJtNPCjwoWAqmmjeyYSBq0_XHwHTX7IfkMfabF-rr-uwTTnHd9gWp3MDnAiQqu_W0H2eouWfr_lhcP_Vk5RSH5e-qJ_WIL_n7o2kUXnpulhFrC6-lgEM2Bmjc/s320/Newborn%20Baby%20Striped%20&%20Cartoon%20Graphic%20Jumpsuit.jpg" alt="" class="shopimg">
   <h3 class="shoptitle">Newborn Baby Boy Striped & Cartoon Graphic Jumpsuit</h3>
   <div class="review">
     <i class="fas fa-star" style="color: gold;"></i>
@@ -855,16 +1125,16 @@
     <span class="shopprice">£2.99</span>
   </div>
 
-  <a href="basket.html" class="shopbutton">
-    <i class="fa fa-shopping-basket basket"></i>
-  </a>
+  <div class="shopbutton">
+    <i class="fa fa-shopping-basket basket add-cart"></i>
+  </div>
 </div>
 
 <!--page6-->
 
 <div class="shopcontent sale men casual sports set">
   <div class="shoptag">Sale</div>
-  <img src="img/2Pcs_Set Men Waffle Texture Solid Color Casual Sportswear Lapel Zipper Half Placket Tops Elastic Waist Drawstring Sport Pants Se Khaki-3XL.jpg" alt="" class="shopimg">
+  <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjaxGk1Cop7i8R0wElQUFd2cYrDprlQBrTlWuT3-ErBgNuNXrFi4h000T57gCmEdqhLktHQn_cnVelgjBdICJ1FnBcV6-LBzsoGYY3jQfFzlZnhkGitFw_fnKp4ELYXl2vebbZrtGEgMEhb3gg5QEcTH_ioElTxk8IAm9CP0Ga5Y6hyphenhyphenRijEpbRbopElE8k/s320/2Pcs_Set%20Men%20Waffle%20Texture%20Solid%20Color%20Casual%20Sportswear%20Lapel%20Zipper%20Half%20Placket%20Tops%20Elastic%20Waist%20Drawstring%20Sport%20Pants%20Se%20Khaki-3XL.jpg" alt="" class="shopimg">
   <h3 class="shoptitle"> Men Casual Sportswear 2Pcs_Set </h3>
   <div class="review">
     <i class="fas fa-star" style="color: gold;"></i>
@@ -880,14 +1150,14 @@
     <span class="shopdiscounts">£20.99</span>
   </div>
 
-  <a href="basket.html" class="shopbutton">
-    <i class="fa fa-shopping-basket basket"></i>
-  </a>
+  <div class="shopbutton">
+    <i class="fa fa-shopping-basket basket add-cart"></i>
+  </div>
 </div>
 
 <div class="shopcontent sale kids-baby bottoms">
   <div class="shoptag">Sale</div>
-  <img src="img/Baby Girls Leggings Thick Warm Dot Pants Kid Girl Leopard Plus Pants Children Vintage Flowers Trousers For Girls Kids - Black _ 2T.jpg" alt="" class="shopimg">
+  <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi6P02U_Q7VIObdAk1aFzn97AzHSSraa-5azRrQmts9iKZCTHt5r_A1D-iFIseiQk3_qhZ02BFywIV19hueCSuBMmUOuUD7MOOSTSJWJdN5Vfu0Go09w3TvKZ85C5yKjvnpsYs1-oM3D2RCTgpD7GwY00HSNHkIcRXL-4dzhytQ1n6K1rNxkwMjSGH3tJQ/s320/Baby%20Girls%20Leggings%20Thick%20Warm%20Dot%20Pants%20Kid%20Girl%20Leopard%20Plus%20Pants%20Children%20Vintage%20Flowers%20Trousers%20For%20Girls%20Kids%20-%20Black%20_%202T.jpg" alt="" class="shopimg">
   <h3 class="shoptitle">Baby Girls Leggings</h3>
   <div class="review">
     <i class="fas fa-star" style="color: gold;"></i>
@@ -903,14 +1173,14 @@
     
   </div>
 
-  <a href="basket.html" class="shopbutton">
-    <i class="fa fa-shopping-basket basket"></i>
-  </a>
+  <div class="shopbutton">
+    <i class="fa fa-shopping-basket basket add-cart"></i>
+  </div>
 </div>
 
 <div class="shopcontent smaller1 new kids-baby hoodie">
   <div class="shoptag">New</div>
-  <img src="img/Bunny Carrot 2 Kids Hoodie.jpg" alt="" class="shopimg">
+  <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhIbrZyCXVAHG2etjhwsY1rSP_lvJS94C7OfWWs7AOXAEegorPYIVY78ZULc_3Bh-gHdNrmpJuUonTCodHEbwW0-wIr5MiRoEk600k5DGwceVLa1U6SXMw-tvZ7hT5axWEAJCDq0UifjDEnnhHHaLWXWXYT9bFK8wKbnWex38u8p0usaxciY0bbSlHXlPA/s320/Bunny%20Carrot%202%20Kids%20Hoodie.jpg" alt="" class="shopimg">
   <h3 class="shoptitle">Bunny Carrot Hoodie</h3>
   <div class="review">
     <i class="fas fa-star" style="color: gold;"></i>
@@ -926,14 +1196,14 @@
     
   </div>
 
-  <a href="basket.html" class="shopbutton">
-    <i class="fa fa-shopping-basket basket"></i>
-  </a>
+  <div class="shopbutton">
+    <i class="fa fa-shopping-basket basket add-cart"></i>
+  </div>
 </div>
 
 <div class="shopcontent  smaller2 sale men streetwear bottoms">
   <div class="shoptag">Sale</div>
-  <img src="img/Pantalones de cintura elástica con cordón liso de color liso para hombre con bolsillo - Gris _ METRO.jpg" alt="" class="shopimg">
+  <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEivvHaAS5aYI25QfgsMBDRT3JyNVQqUhyPsv-0V2mLg7ijyxk_yNU3-yRT_TIjq_1ku7sFZZzzYckkP5ZPYWVG6k_7mtuseTkBWvupLTWvTwQW3Squw_7PVMCpLqY11h1HTlTki53zQWIWrQxjfpY7HCi6kufQQDKwFrttK_4HVqsMUbyPxVl2ZE41Np5w/s320/Pantalones%20de%20cintura%20el%C3%A1stica%20con%20cord%C3%B3n%20liso%20de%20color%20liso%20para%20hombre%20con%20bolsillo%20-%20Gris%20_%20METRO.jpg" alt="" class="shopimg">
   <h3 class="shoptitle">Beige Joggers</h3>
   <div class="review">
     <i class="fas fa-star" style="color: gold;"></i>
@@ -949,14 +1219,14 @@
     
   </div>
 
-  <a href="basket.html" class="shopbutton">
-    <i class="fa fa-shopping-basket basket"></i>
-  </a>
+  <div class="shopbutton">
+    <i class="fa fa-shopping-basket basket add-cart"></i>
+  </div>
 </div>
 
 <div class="shopcontent  smaller2 new kids-baby bottoms">
   <div class="shoptag">New</div>
-  <img src="img/Toddler Boys Cartoon Graphic Sweatpants.jpg" alt="" class="shopimg">
+  <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg3qVIJ6QJsyKCAIv6MlzUA3-cqpovbcDBP0K6RBW8R5IGqof5EfF16fJlQSNsPK8yRys1RrYjVRv3E0c91OZO9j6QzIHAculEJHepyhvtqeoPpO-qOe3X-JpzpodYBw0kapBmSuy9lNgzlw5DXb5xfTIIkvW5S93R_CsG2WXLvkrNAqHnHwII6m-bN0j0/s320/Toddler%20Boys%20Cartoon%20Graphic%20Sweatpants.jpg" alt="" class="shopimg">
   <h3 class="shoptitle">Toddler Boys Cartoon Graphic Sweatpants</h3>
   <div class="review">
     <i class="fas fa-star" style="color: gold;"></i>
@@ -972,14 +1242,14 @@
     
   </div>
 
-  <a href="basket.html" class="shopbutton">
-    <i class="fa fa-shopping-basket basket"></i>
-  </a>
+  <div class="shopbutton">
+    <i class="fa fa-shopping-basket basket add-cart"></i>
+  </div>
 </div>
 
 <div class="shopcontent  smaller2 sale kids-baby hoodie">
   <div class="shoptag">Sale</div>
-  <img src="img/Toddler Boys Figure Graphic Zip Up Hoodie.jpg" alt="" class="shopimg">
+  <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjnFFIwgbb7TsJQ7QavpkUn08N12NC2tfXE0PAPFkC06fW9hGBvrR7NPoHD2f9sedqdDNIwsYUCOwG9JIKFwmLup-z0QMpk1i8hjgzFrngRE_aX57s6MR8ZtD2v4j2BS3OxgxLjzuLbgzi-Ndnkiw3dS1CQqICLH7DT9dkJvpzE7M7N-_D4yukGKWTzvOc/s320/Toddler%20Boys%20Figure%20Graphic%20Zip%20Up%20Hoodie.jpg" alt="" class="shopimg">
   <h3 class="shoptitle">Toddler Boys Figure Graphic Zip Up Hoodie</h3>
   <div class="review">
     <i class="fas fa-star" style="color: gold;"></i>
@@ -994,9 +1264,9 @@
     <span class="shopprice">£6.99</span>
   </div>
 
-  <a href="basket.html" class="shopbutton">
-    <i class="fa fa-shopping-basket basket"></i>
-  </a>
+  <div class="shopbutton">
+    <i class="fa fa-shopping-basket basket add-cart"></i>
+  </div>
 </div>
 
       
